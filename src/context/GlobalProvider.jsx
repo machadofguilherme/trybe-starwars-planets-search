@@ -5,6 +5,7 @@ import AppContext from './AppContext';
 
 function GlobalProvider({ children }) {
   const [data, setData] = useState([]);
+  const [nameInput, setNameInput] = useState('');
 
   useEffect(() => {
     // Delete é sensacional!
@@ -21,9 +22,15 @@ function GlobalProvider({ children }) {
     requisition();
   }, []);
 
+  const handleNameInput = useMemo(() => ({ target }) => {
+    setNameInput(target.value);
+  }, []);
+
   const context = useMemo(() => ({
     data,
-  }), [data]);
+    nameInput,
+    handleNameInput,
+  }), [data, nameInput, handleNameInput]);
 
   return (
     <AppContext.Provider value={ context }>

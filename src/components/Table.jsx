@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import AppContext from '../context/AppContext';
 
 function Table() {
@@ -8,15 +8,24 @@ function Table() {
     nameInput,
     handleNameInput,
     itemSelected,
+    setItemSelected,
     selectData,
     compare,
     compareSelect,
     numberValue,
     handleNumber,
-    // listFilter,
+    listFilter,
     // filterByNumericValues,
     // setFilterByNumericValues,
   } = useContext(AppContext);
+
+  const [options, setOptions] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
 
   const goFilter = async (collum, comparison, value) => {
     if (comparison === 'igual a') {
@@ -29,6 +38,11 @@ function Table() {
       const resultFilter = data.filter((e) => e[collum] < Number(value));
       setData(resultFilter);
     }
+
+    const xablau = options.filter((e) => e !== collum);
+    setOptions(xablau);
+    setItemSelected(xablau[0]);
+    listFilter(collum, comparison, value);
   };
 
   return (
@@ -47,11 +61,13 @@ function Table() {
           onClick={ selectData }
           data-testid="column-filter"
         >
-          <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
+          {
+            options.map((e) => (
+              <option key={ e } value={ e }>
+                { e }
+              </option>
+            ))
+          }
         </select>
 
         <select
@@ -101,7 +117,7 @@ function Table() {
         <tbody>
           {
             data
-              .filter((e) => e.name.toLowerCase().includes(nameInput.toLowerCase()))
+              ?.filter((e) => e.name.toLowerCase().includes(nameInput.toLowerCase()))
               .map((item) => (
                 <tr key={ item.name }>
                   <td>{ [item.name] }</td>

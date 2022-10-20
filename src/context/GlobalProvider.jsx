@@ -46,11 +46,14 @@ function GlobalProvider({ children }) {
   }, []);
 
   const listFilter = useMemo(() => (collum, comparison, value) => {
-    setFilterByNumericValues([...filterByNumericValues, {
+    const newFilterByNumericValues = [...filterByNumericValues, {
       collum,
       comparison,
       value,
-    }]);
+    }];
+    console.log(newFilterByNumericValues);
+
+    setFilterByNumericValues(newFilterByNumericValues);
   }, [filterByNumericValues]);
 
   const context = useMemo(() => ({
@@ -59,6 +62,7 @@ function GlobalProvider({ children }) {
     nameInput,
     handleNameInput,
     itemSelected,
+    setItemSelected,
     selectData,
     compare,
     compareSelect,
@@ -73,6 +77,7 @@ function GlobalProvider({ children }) {
     nameInput,
     handleNameInput,
     itemSelected,
+    setItemSelected,
     selectData,
     compare,
     compareSelect,
@@ -91,7 +96,7 @@ function GlobalProvider({ children }) {
 }
 
 GlobalProvider.propTypes = {
-  children: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 export default GlobalProvider;

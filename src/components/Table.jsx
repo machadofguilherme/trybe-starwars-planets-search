@@ -2,18 +2,82 @@ import React, { useContext } from 'react';
 import AppContext from '../context/AppContext';
 
 function Table() {
-  const { data, nameInput, handleNameInput } = useContext(AppContext);
+  const {
+    data,
+    setData,
+    nameInput,
+    handleNameInput,
+    itemSelected,
+    selectData,
+    compare,
+    compareSelect,
+    numberValue,
+    handleNumber,
+    // listFilter,
+    // filterByNumericValues,
+    // setFilterByNumericValues,
+  } = useContext(AppContext);
+
+  const goFilter = async (collum, comparison, value) => {
+    if (comparison === 'igual a') {
+      const resultFilter = data.filter((e) => e[collum] === value);
+      setData(resultFilter);
+    } else if (comparison === 'maior que') {
+      const resultFilter = data.filter((e) => e[collum] > Number(value));
+      setData(resultFilter);
+    } else if (comparison === 'menor que') {
+      const resultFilter = data.filter((e) => e[collum] < Number(value));
+      setData(resultFilter);
+    }
+  };
 
   return (
     <main>
       <form>
         <input
           type="text"
-          value={ nameInput }
-          onChange={ handleNameInput }
           autoComplete="off"
+          value={ nameInput }
           data-testid="name-filter"
+          onChange={ handleNameInput }
+          placeholder="Pesquise pelo nome"
         />
+
+        <select
+          onClick={ selectData }
+          data-testid="column-filter"
+        >
+          <option value="population">population</option>
+          <option value="orbital_period">orbital_period</option>
+          <option value="diameter">diameter</option>
+          <option value="rotation_period">rotation_period</option>
+          <option value="surface_water">surface_water</option>
+        </select>
+
+        <select
+          onClick={ compareSelect }
+          data-testid="comparison-filter"
+        >
+          <option value="maior que">maior que</option>
+          <option value="menor que">menor que</option>
+          <option value="igual a">igual a</option>
+        </select>
+
+        <input
+          type="text"
+          value={ numberValue }
+          onChange={ handleNumber }
+          data-testid="value-filter"
+          placeholder="Digite um valor numérico"
+        />
+
+        <button
+          type="button"
+          data-testid="button-filter"
+          onClick={ () => goFilter(itemSelected, compare, numberValue) }
+        >
+          Filtrar
+        </button>
       </form>
 
       <table>

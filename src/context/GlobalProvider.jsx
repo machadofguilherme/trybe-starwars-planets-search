@@ -6,6 +6,10 @@ import AppContext from './AppContext';
 function GlobalProvider({ children }) {
   const [data, setData] = useState([]);
   const [nameInput, setNameInput] = useState('');
+  const [itemSelected, setItemSelected] = useState('population');
+  const [compare, setCompare] = useState('maior que');
+  const [numberValue, setNumberValue] = useState(0);
+  const [filterByNumericValues, setFilterByNumericValues] = useState([]);
 
   useEffect(() => {
     // Delete é sensacional!
@@ -26,11 +30,58 @@ function GlobalProvider({ children }) {
     setNameInput(target.value);
   }, []);
 
+  const selectData = useMemo(() => ({ target }) => {
+    const selected = target.value;
+    setItemSelected(selected);
+  }, []);
+
+  const compareSelect = useMemo(() => ({ target }) => {
+    const selected = target.value;
+    setCompare(selected);
+  }, []);
+
+  const handleNumber = useMemo(() => ({ target }) => {
+    const number = target.value;
+    setNumberValue(number);
+  }, []);
+
+  const listFilter = useMemo(() => (collum, comparison, value) => {
+    setFilterByNumericValues([...filterByNumericValues, {
+      collum,
+      comparison,
+      value,
+    }]);
+  }, [filterByNumericValues]);
+
   const context = useMemo(() => ({
     data,
+    setData,
     nameInput,
     handleNameInput,
-  }), [data, nameInput, handleNameInput]);
+    itemSelected,
+    selectData,
+    compare,
+    compareSelect,
+    numberValue,
+    handleNumber,
+    listFilter,
+    filterByNumericValues,
+    setFilterByNumericValues,
+  }), [
+    data,
+    setData,
+    nameInput,
+    handleNameInput,
+    itemSelected,
+    selectData,
+    compare,
+    compareSelect,
+    numberValue,
+    handleNumber,
+    listFilter,
+    filterByNumericValues,
+    setFilterByNumericValues,
+  ]);
 
   return (
     <AppContext.Provider value={ context }>

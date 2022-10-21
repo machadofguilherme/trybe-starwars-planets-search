@@ -78,6 +78,13 @@ describe('Testes para 30%', () => {
     userEvent.type(input, number);
     userEvent.click(button);
 
+    const hideButton = screen.getByRole('button', { name: /X/i });
+
     expect(screen.getByRole('option', { name: 'orbital_period' }).selected).toBe(true)
+    expect(hideButton).toBeVisible();
+
+    userEvent.click(hideButton);
+
+    expect(hideButton).not.toBeVisible();
   });
 })

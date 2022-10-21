@@ -10,6 +10,7 @@ function GlobalProvider({ children }) {
   const [compare, setCompare] = useState('maior que');
   const [numberValue, setNumberValue] = useState(0);
   const [filterByNumericValues, setFilterByNumericValues] = useState([]);
+  const [original, setOriginal] = useState([]);
 
   useEffect(() => {
     // Delete é sensacional!
@@ -21,6 +22,7 @@ function GlobalProvider({ children }) {
       const { results } = json;
       const filteredResults = results.filter((item) => delete item.residents);
       setData(filteredResults);
+      setOriginal(filteredResults);
     };
 
     requisition();
@@ -51,7 +53,6 @@ function GlobalProvider({ children }) {
       comparison,
       value,
     }];
-    console.log(newFilterByNumericValues);
 
     setFilterByNumericValues(newFilterByNumericValues);
   }, [filterByNumericValues]);
@@ -71,6 +72,8 @@ function GlobalProvider({ children }) {
     listFilter,
     filterByNumericValues,
     setFilterByNumericValues,
+    original,
+    setOriginal,
   }), [
     data,
     setData,
@@ -86,6 +89,8 @@ function GlobalProvider({ children }) {
     listFilter,
     filterByNumericValues,
     setFilterByNumericValues,
+    original,
+    setOriginal,
   ]);
 
   return (

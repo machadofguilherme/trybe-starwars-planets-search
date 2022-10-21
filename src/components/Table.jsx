@@ -15,8 +15,9 @@ function Table() {
     numberValue,
     handleNumber,
     listFilter,
-    // filterByNumericValues,
-    // setFilterByNumericValues,
+    filterByNumericValues,
+    setFilterByNumericValues,
+    original,
   } = useContext(AppContext);
 
   const [options, setOptions] = useState([
@@ -27,15 +28,20 @@ function Table() {
     'surface_water',
   ]);
 
+  const [dataCopy, setDataCopy] = useState([]);
+
   const goFilter = async (collum, comparison, value) => {
     if (comparison === 'igual a') {
       const resultFilter = data.filter((e) => e[collum] === value);
+      setDataCopy(data);
       setData(resultFilter);
     } else if (comparison === 'maior que') {
       const resultFilter = data.filter((e) => e[collum] > Number(value));
+      setDataCopy(data);
       setData(resultFilter);
     } else if (comparison === 'menor que') {
       const resultFilter = data.filter((e) => e[collum] < Number(value));
+      setDataCopy(data);
       setData(resultFilter);
     }
 
@@ -43,6 +49,35 @@ function Table() {
     setOptions(xablau);
     setItemSelected(xablau[0]);
     listFilter(collum, comparison, value);
+  };
+
+  const delFilter = (filter) => {
+    const newFilter = filterByNumericValues.filter((e) => (e.collum !== filter.collum)
+        || (e.comparison !== filter.comparison)
+        || (e.value !== filter.value));
+    setFilterByNumericValues(newFilter);
+    setOptions([filterByNumericValues[0].collum, ...options]);
+
+    if (filterByNumericValues.length === 1) {
+      setData(original);
+    } else {
+      setData(dataCopy);
+    }
+  };
+
+  const delAllFilters = () => {
+    setFilterByNumericValues([]);
+    setOptions([...options, ...filterByNumericValues.map((e) => [e.collum])]);
+
+    const req = async () => {
+      const json2 = await fetch('https://swapi.dev/api/planets')
+        .then((response) => response.json());
+      const { results } = json2;
+      const filteredResults = results.filter((item) => delete item.residents);
+      setData(filteredResults);
+    };
+
+    req();
   };
 
   return (
@@ -95,6 +130,31 @@ function Table() {
           Filtrar
         </button>
       </form>
+
+      {
+        filterByNumericValues.map((e, i) => (
+          <section type="button" key={ i } data-testid="filter">
+            <span data-testid="filter">
+              { `${e.collum} ${e.comparison} ${e.value}` }
+              <button
+                type="button"
+                data-testid="filter"
+                onClick={ () => delFilter(e) }
+              >
+                X
+              </button>
+            </span>
+          </section>
+        ))
+      }
+
+      <button
+        type="button"
+        onClick={ delAllFilters }
+        data-testid="button-remove-filters"
+      >
+        Remover todas filtragens
+      </button>
 
       <table>
         <thead>

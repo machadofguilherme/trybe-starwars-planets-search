@@ -1,13 +1,27 @@
-# :construction: README customizado em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto no qual você pode customizar e reutilizar todas as vezes que for executar o trybe-publisher.
 
-Para deixá-lo com a sua cara, basta alterar o seguinte arquivo da sua máquina: ~/.student-repo-publisher/custom/_NEW_README.md
+# [Trybe] - Star Wars Planet Search
 
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
+Como o título diz, esse projeto foi desenvolvido com inspiração na franquia Star Wars. É um projeto aparentemente simples, mas que testou as nossas habilidades com o uso de diversos filtros.
+
+Esse projeto permite a um usuário filtrar planetas do universo de Star Wars. Com isso, o usuário pode obter informações a respeito de cada planeta e conhecer a vastidão proporcionada pela franquia.
+
+No Star Wars Planet Search fora utilizado Higher Order Functions em abundância. Dá mesma forma que, pela primeira vez pus em prática os conhecimentos que obtive sobre Context API.
+## Execução
+
+1. Clone o projeto para o seu computador:
+
+```bash
+  git clone https://github.com/machadofguilherme/trybe-starwars-planets-search.git
+  cd trybe-starwars-planets-search
+```
+2. Instale as dependências:
+
+```bash
+  npm i
+```
+
+3. Inicie a aplicação:
+
+```bash
+  npm start
+```
